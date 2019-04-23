@@ -10,6 +10,7 @@ const state = {
   roles: []
 }
 
+// 触发状态变更
 const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token
@@ -34,6 +35,7 @@ const actions = {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password }).then(response => {
+        // todo 新增获取菜单权限
         const { data } = response
         commit('SET_TOKEN', data.token)
         setToken(data.token)

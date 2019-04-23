@@ -121,6 +121,7 @@ export default {
   },
   watch: {
     $route: {
+      // 保存上一次访问的路径，作为登录后的重定向
       handler: function(route) {
         this.redirect = route.query && route.query.redirect
       },
@@ -141,7 +142,9 @@ export default {
     // window.removeEventListener('storage', this.afterQRScan)
   },
   methods: {
+    // key up 触发
     checkCapslock({ shiftKey, key } = {}) {
+      // 控制 el-tooltip 中大小写提示的
       if (key && key.length === 1) {
         if (shiftKey && (key >= 'a' && key <= 'z') || !shiftKey && (key >= 'A' && key <= 'Z')) {
           this.capsTooltip = true
