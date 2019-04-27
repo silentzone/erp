@@ -1,0 +1,71 @@
+-- ----------------------------
+-- Table structure for t_custom
+-- ----------------------------
+DROP TABLE IF EXISTS `t_custom`;
+CREATE TABLE `t_custom`  (
+  `CUSTOM_ID` bigint(20) NOT NULL COMMENT '主键id',
+  `CUSTOM_TYPE` int DEFAULT NULL COMMENT '客户类别：1上游，2下游',
+  `CUSTOM_NAME` varchar(200) DEFAULT NULL COMMENT '客户名称',
+  `CONTACT_NAME` varchar(30) DEFAULT NULL COMMENT '联系人',
+  `CONTACT_NUMBER` varchar(30) DEFAULT NULL COMMENT '联系电话',
+  `REMARK` varchar(30) DEFAULT NULL COMMENT '备注',
+  `CREATE_TIME` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `CREATE_USER` bigint(20) DEFAULT NULL COMMENT '创建人',
+  `UPDATE_TIME` datetime(0) DEFAULT NULL COMMENT '更新时间',
+  `UPDATE_USER` bigint(20) DEFAULT NULL COMMENT '更新人',
+   PRIMARY KEY (`CUSTOM_ID`) USING BTREE
+) ENGINE = InnoDB COMMENT = '客户表' ROW_FORMAT = Dynamic;
+
+
+-- ----------------------------
+-- Table structure for t_goods
+-- ----------------------------
+DROP TABLE IF EXISTS `t_goods`;
+CREATE TABLE `t_goods`  (
+  `GOODS_ID` bigint(20) NOT NULL COMMENT '主键id',
+  `GOODS_NAME` varchar(200) DEFAULT NULL COMMENT '商品名称',
+  `GOODS_UNIT` int DEFAULT NULL COMMENT '商品单位',
+  `SALE_TYPE` int DEFAULT NULL COMMENT '销售类别：1上游，2下游',
+  `REMARK` varchar(30) DEFAULT NULL COMMENT '备注',
+  `CREATE_TIME` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `CREATE_USER` bigint(20) DEFAULT NULL COMMENT '创建人',
+  `UPDATE_TIME` datetime(0) DEFAULT NULL COMMENT '更新时间',
+  `UPDATE_USER` bigint(20) DEFAULT NULL COMMENT '更新人',
+   PRIMARY KEY (`GOODS_ID`) USING BTREE
+) ENGINE = InnoDB COMMENT = '商品表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for t_order
+-- ----------------------------
+DROP TABLE IF EXISTS `t_order`;
+CREATE TABLE `t_order`  (
+  `ORDER_ID` bigint(20) NOT NULL COMMENT '主键id',
+  `ORDER_TYPE` int DEFAULT NULL COMMENT '订单类别：1进货，-1出货',
+  `ORDER_DATE` datetime(0) DEFAULT NULL COMMENT '订单日期',
+  `GOODS_ID` bigint(20) NOT NULL COMMENT '商品id',
+  `GOODS_NAME` varchar(200) DEFAULT NULL COMMENT '商品名称',
+  `CUSTOM_TYPE` int DEFAULT NULL COMMENT '客户类别：1上游，2下游',
+  `CUSTOM_ID` bigint(20) NOT NULL COMMENT '客户id',
+  `CUSTOM_NAME` varchar(200) DEFAULT NULL COMMENT '客户名称',
+  `ORDER_NO` varchar(100) DEFAULT NULL COMMENT '订单编号',
+  `GOODS_UNIT` int DEFAULT NULL COMMENT '商品单位',
+  `SALE_COUNT` int DEFAULT NULL COMMENT '销售数量',
+  `SALE_PRICE` float DEFAULT NULL COMMENT '销售单价',
+  `SALE_AMOUNT` float DEFAULT NULL COMMENT '销售总价',
+  `REMARK` varchar(30) DEFAULT NULL COMMENT '备注',
+  `CREATE_TIME` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `CREATE_USER` bigint(20) DEFAULT NULL COMMENT '创建人',
+  `UPDATE_TIME` datetime(0) DEFAULT NULL COMMENT '更新时间',
+  `UPDATE_USER` bigint(20) DEFAULT NULL COMMENT '更新人',
+  `CHECK_TIME` datetime(0) DEFAULT NULL COMMENT '审核时间',
+  `CHECK_USER` bigint(20) DEFAULT NULL COMMENT '审核人',
+   PRIMARY KEY (`ORDER_ID`) USING BTREE
+) ENGINE = InnoDB COMMENT = '订单表' ROW_FORMAT = Dynamic;
+
+create index `IDX_t_order_date` on `t_order`(`order_date`);
+
+create index `IDX_t_order_custom_id` on `t_order`(`custom_id`);
+
+
+
+

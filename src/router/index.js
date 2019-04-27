@@ -86,6 +86,18 @@ export const constantRoutes = [
         meta: { title: '客户管理', icon: 'documentation' }
       }
     ]
+  },
+  {
+    path: '/goods-mange',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/goods-manage/index'),
+        name: 'goods-manage',
+        meta: { title: '商品管理', icon: 'documentation' }
+      }
+    ]
   }
   // {
   //   path: '/documentation',

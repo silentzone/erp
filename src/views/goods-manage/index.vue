@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.customName" placeholder="客户名称" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
+      <el-input v-model="listQuery.goodsName" placeholder="商品名称" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">新增</el-button>
     </div>
@@ -16,8 +16,8 @@
       style="width: 100%;"
       @sort-change="sortChange"
     >
-      <el-table-column label="客户ID" prop="customId" sortable="custom" align="center" width="100" />
-      <el-table-column label="客户名称" prop="customName" width="150px" align="center" />
+      <el-table-column label="商品ID" prop="goodsId" sortable="custom" align="center" width="100" />
+      <el-table-column label="商品名称" prop="goodsName" width="150px" align="center" />
       <el-table-column label="更新日期" prop="updateTime" width="150px" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.updateTime | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
@@ -39,21 +39,18 @@
 
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
-    <el-dialog title="客户管理" :visible.sync="dialogFormVisible">
+    <el-dialog title="商品管理" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
-        <el-form-item label="客户名称" prop="customName">
-          <el-input v-model="temp.customName" />
+        <el-form-item label="商品名称" prop="goodsName">
+          <el-input v-model="temp.goodsName" />
         </el-form-item>
-        <el-form-item label="客户类型">
-          <el-select v-model="temp.customType" class="filter-item" placeholder="Please select">
+        <el-form-item label="销售类型">
+          <el-select v-model="temp.saleType" class="filter-item" placeholder="Please select">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
-        <el-form-item label="联系人" prop="contactName">
-          <el-input v-model="temp.contactName" />
-        </el-form-item>
-        <el-form-item label="联系电话" prop="contactNumber">
-          <el-input v-model="temp.contactNumber" />
+        <el-form-item label="单位" prop="goodsUnit">
+          <el-input v-model="temp.goodsUnit" />
         </el-form-item>
         <el-form-item label="备注">
           <el-input v-model="temp.remark" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="" />
@@ -74,13 +71,13 @@
 </template>
 
 <script>
-import { fetchList, createCustom, updateCustom } from '@/api/customs'
+import { fetchList, createGoods, updateGoods } from '@/api/goods'
 import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 
 export default {
-  name: 'CustomerManger',
+  name: 'GoodsManger',
   components: { Pagination },
   directives: { waves },
   filters: {
@@ -103,21 +100,21 @@ export default {
         value: '2',
         label: '下游'
       }],
-      // 客户表实体
+      // 表实体
       temp: {
-        customId: undefined,
-        customType: '',
+        goodsId: undefined,
+        saleType: '',
         remark: '',
-        contactName: '',
-        contactNumber: ''
+        goodsName: '',
+        goodsUnit: ''
       },
       dialogFormVisible: false,
       dialogStatus: '',
       // 验证规则
       rules: {
-        customName: [{ required: true, message: '必填选项', trigger: 'change' }],
-        customType: [{ required: true, message: '必填选项', trigger: 'change' }],
-        contactNumber: [{ required: true, message: '必填选项', trigger: 'change' }]
+        goodsName: [{ required: true, message: '必填选项', trigger: 'change' }],
+        saleType: [{ required: true, message: '必填选项', trigger: 'change' }],
+        goodsUnit: [{ required: true, message: '必填选项', trigger: 'change' }]
       }
     }
   },
@@ -147,11 +144,11 @@ export default {
 
     resetTemp() {
       this.temp = {
-        customId: undefined,
-        customType: '',
+        goodsId: undefined,
+        saleType: '',
         remark: '',
-        contactName: '',
-        contactNumber: ''
+        goodsName: '',
+        goodsUnit: ''
       }
     },
     handleCreate() {
@@ -165,7 +162,7 @@ export default {
     createData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          createCustom(this.temp).then(() => {
+          createGoods(this.temp).then(() => {
             this.list.unshift(this.temp)
             this.dialogFormVisible = false
             this.$notify({
@@ -190,9 +187,9 @@ export default {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           const tempData = Object.assign({}, this.temp)
-          updateCustom(tempData).then(() => {
+          updateGoods(tempData).then(() => {
             for (const v of this.list) {
-              if (v.customId === this.temp.customId) {
+              if (v.goodsId === this.temp.goodsId) {
                 const index = this.list.indexOf(v)
                 this.list.splice(index, 1, this.temp)
                 break
