@@ -7,9 +7,9 @@ const count = 100
 for (let i = 0; i < count; i++) {
   List.push(Mock.mock({
     orderId: '@increment',
-    ORDER_DATE: +Mock.Random.date('T'),
-    GOODS_ID : '@increment',
-    GOODS_NAME : '@title(5, 8)',  
+    orderDate: +Mock.Random.date('T'),
+    goodsId: '@increment',
+    goodsName : '@title(5, 8)',  
     'orderType|1': ['进货', '出货'], 
     'customType|1': ['上游', '下游'],
     customId:'@increment',
@@ -23,9 +23,9 @@ for (let i = 0; i < count; i++) {
     createTime : +Mock.Random.date('T'),
     createUser :'@first', 
     updateTime : +Mock.Random.date('T'),
-    upUPDATE_USER :'@first', 
-    CHECK_TIME :  +Mock.Random.date('T'),
-    CHECK_USER :'@first',    
+    updateUser :'@first', 
+    checkTime :  +Mock.Random.date('T'),
+    checkUser :'@first',    
   }))
 }
 

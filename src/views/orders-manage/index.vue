@@ -16,9 +16,13 @@
       style="width: 100%;"
       @sort-change="sortChange"
     >
-      <el-table-column label="商品ID" prop="goodsId" sortable="custom" align="center" width="100" />
+      <el-table-column label="订单ID" prop="orderId" sortable="custom" align="center" width="100" />
       <el-table-column label="商品名称" prop="goodsName" width="150px" align="center" />
-      <el-table-column label="更新日期" prop="updateTime" width="150px" align="center">
+      <el-table-column label="客户名称" prop="customName" width="150px" align="center" />
+      <el-table-column label="订单编号" prop="orderNo" width="150px" align="center" />
+      <el-table-column label="销售金额" prop="salePrice" width="100px" align="center" />
+      <el-table-column label="销售总额" prop="saleAmount" width="100px" align="center" />
+      <el-table-column label="更新时间" prop="updateTime" width="150px" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.updateTime | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
         </template>
@@ -39,12 +43,17 @@
 
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
-    <el-dialog title="商品管理" :visible.sync="dialogFormVisible">
+    <el-dialog title="订单管理" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
-        <el-form-item label="商品名称" prop="goodsName">
-          <el-input v-model="temp.goodsName" />
+       <el-form-item label="订单编号" prop="orderNo">
+          <el-input v-model="temp.orderNo" />
+       </el-form-item>
+       <el-form-item label="商品">
+          <el-select  filterable remote :remote-method="goodsremoteSearch" v-model="temp.goodsName" class="filter-item" placeholder="搜索商品">
+            <el-option v-for="item in goodsOpts" :key="item.value" :label="item.label" :value="item.value" />
+          </el-select>
         </el-form-item>
-        <el-form-item label="销售类型">
+        <el-form-item label="订单类型">
           <el-select v-model="temp.saleType" class="filter-item" placeholder="Please select">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
@@ -93,6 +102,28 @@ export default {
         limit: 20,
         listQuery: undefined
       },
+      // 初始商品选项 （需要查询）
+      goodsOpts :[{
+        value: 'g01',
+        label: 'A商品'
+      },{
+        value: 'G22',
+        label: 'B商品'
+      },{
+        value: 'G23',
+        label: 'C商品'
+      }],
+      // 初始客户选项 
+      customsOpts : [{
+        value: 'c01',
+        label: '上游客户A'
+      },{
+        value: 'c22',
+        label: '上游客户B'
+      },{
+        value: 'c23',
+        label: '下游客户c'
+      }],
       options: [{
         value: '1',
         label: '上游'
@@ -123,6 +154,22 @@ export default {
     this.getList()
   },
   methods: {
+    // 远程搜索商品
+    goodsremoteSearch(query) { 
+      // if (query !== '') {
+      //     this.loading = true;
+      //     setTimeout(() => {
+      //       this.loading = false;
+      //       this.options = this.list.filter(item => {
+      //         return item.label.toLowerCase()
+      //           .indexOf(query.toLowerCase()) > -1;
+      //       });
+      //     }, 200);
+      //   } else {
+      //     this.options = [];
+      //   }
+    }
+
     // 获取列表
     getList() {
       this.listLoading = true
