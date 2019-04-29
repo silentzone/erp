@@ -8,6 +8,7 @@ import search from './remote-search'
 import permission from './permission'
 import customs from './customs'
 import goods from './goods'
+import order from './order'
 
 
 const mocks = [
@@ -17,7 +18,8 @@ const mocks = [
   ...search,
   ...permission,
   ...customs,
-  ...goods
+  ...goods,
+  ...order
 ]
 
 // for front mock

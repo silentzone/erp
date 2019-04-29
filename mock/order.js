@@ -6,20 +6,32 @@ const count = 100
   
 for (let i = 0; i < count; i++) {
   List.push(Mock.mock({
-    id: '@increment',
-    timestamp: +Mock.Random.date('T'),
-    author: '@first', 
-    title: '@title(5, 10)', 
-    content: baseContent,
-    cast: '@float(0, 100, 2, 2)', 
-    'type|1': ['买入', '卖出', '回收', '加工', '其他'],
-    'status|1': ['新建', '审核中', '编辑','关闭'], 
+    orderId: '@increment',
+    ORDER_DATE: +Mock.Random.date('T'),
+    GOODS_ID : '@increment',
+    GOODS_NAME : '@title(5, 8)',  
+    'orderType|1': ['进货', '出货'], 
+    'customType|1': ['上游', '下游'],
+    customId:'@increment',
+    customName :  '@title(5, 8)', 
+    orderNo :'@increment',
+    goodsUnit : 'KG', 
+    saleCount : 1200,
+    salePrice : '@float(0, 100, 2, 2)',
+    saleAmount : '@float(0, 100, 2, 2)',
+    remark : '@title(15, 35)', 
+    createTime : +Mock.Random.date('T'),
+    createUser :'@first', 
+    updateTime : +Mock.Random.date('T'),
+    upUPDATE_USER :'@first', 
+    CHECK_TIME :  +Mock.Random.date('T'),
+    CHECK_USER :'@first',    
   }))
 }
 
 export default [
   {
-    url: '/article/list',
+    url: '/order/list',
     type: 'get',
     response: config => {
       const { importance, type, title, page = 1, limit = 20, sort } = config.query
@@ -48,7 +60,7 @@ export default [
   },
 
   {
-    url: '/article/detail',
+    url: '/order/detail',
     type: 'get',
     response: config => {
       const { id } = config.query
@@ -62,27 +74,10 @@ export default [
       }
     }
   },
+ 
 
   {
-    url: '/article/pv',
-    type: 'get',
-    response: _ => {
-      return {
-        code: 20000,
-        data: {
-          pvData: [
-            { key: 'PC', pv: 1024 },
-            { key: 'mobile', pv: 1024 },
-            { key: 'ios', pv: 1024 },
-            { key: 'android', pv: 1024 }
-          ]
-        }
-      }
-    }
-  },
-
-  {
-    url: '/article/create',
+    url: '/order/create',
     type: 'post',
     response: _ => {
       return {
@@ -93,7 +88,7 @@ export default [
   },
 
   {
-    url: '/article/update',
+    url: '/order/update',
     type: 'post',
     response: _ => {
       return {
