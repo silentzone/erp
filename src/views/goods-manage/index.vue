@@ -44,7 +44,7 @@
         <el-form-item label="商品名称" prop="goodsName">
           <el-input v-model="temp.goodsName" />
         </el-form-item>
-        <el-form-item label="销售类型">
+        <el-form-item label="销售类型" prop="saleType">
           <el-select v-model="temp.saleType" class="filter-item" placeholder="Please select">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
